@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  web:
+    build: .
+    container_name: my_devops_app
+    command: python manage.py runserver 0.0.0.0:8001
+    ports:
+      - "8001:8001"
+    volumes:
+      - .:/app                     # Mount project source (for live code reload)
+      - ./db.sqlite3:/app/db.sqlite3  # Persist SQLite DB on host
+    environment:
+      - PYTHONUNBUFFERED=1
