@@ -3,10 +3,14 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Reporter
 from .serializers import ReporterSerializer
+from .tasks import celery_task
 
 
 class ReporterListCreateView(APIView):
     def get(self, request):
+        for counter in range(2):
+            print(counter)
+            celery_task.delay(counter)
         reporters = Reporter.objects.all()
         serializer = ReporterSerializer(reporters, many=True)
         return Response(serializer.data)
